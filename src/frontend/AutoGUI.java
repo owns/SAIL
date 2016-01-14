@@ -12,6 +12,7 @@
  */
 package frontend;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.List;
@@ -41,7 +42,7 @@ public class AutoGUI extends Application {
 	public static final String licenseFile = "./data/license.txt";
 	public GUIController controller;
 	
-	public int exitCode = 0;
+	public int exitCode = 1;
 	
     @Override
     public void start(Stage stage) throws Exception {
@@ -85,31 +86,57 @@ public class AutoGUI extends Application {
  		if(args.size()<2){
  			System.err.println("NOT AT LEAST 2 ARGUEMNTS GIVEN!!! \"inputFolder\" \"outputFolder\"");
  			exitCode = 3;
- 			Platform.exit();
+ 			Platform.exit(); return;
  		}
 
  		String inpath = args.get(args.size()-2);
  		String outpath = args.get(args.size()-1);
  		
+ 		// Check input folder
  		System.out.format("Input  Folder: \"%s\"%n",inpath);
+ 		// is dir and exists?
+ 		File a = new File(inpath);
+ 		if(!a.isDirectory()){ 
+ 			System.err.println("INPUT FOLDER DNE OR IS NOT A DIRECTORY!!!");
+ 			exitCode = 3;
+ 			Platform.exit(); return;
+ 		}
+ 		// are there files for us to process?
+ 		if(a.listFiles().length==0){
+ 			System.err.println("INPUT FOLDER IS EMPTY... SUCCESS!");
+ 			exitCode = 0;
+ 			Platform.exit(); return;
+ 		}
+ 			
+ 		// Check output folder
  		System.out.format("Output Folder: \"%s\"%n",outpath);
+ 		// does it exist and is it a directory? 
+ 		if(!(new File(outpath).isDirectory())){
+ 			System.err.println("OUTPUT FOLDER DNE OR IS NOT A DIRECTORY!!!");
+ 			exitCode = 3;
+ 			Platform.exit(); return;
+ 		}
  		
+ 		// set input/output folders
  		controller.setInputFolder(inpath);
  		controller.setOutputFolder(outpath);
  		
+ 		// click the next button!
  		Thread mythread = controller.processInput(new Runnable() {
             @Override public void run() {
             	System.err.println("Success!");
-            	Platform.exit();
+            	exitCode = 0;
+            	Platform.exit(); return;
             }
         },new Runnable() {
             @Override public void run() {
         		System.err.println("Task Failed");
-        		exitCode = 4;
-        		Platform.exit();
+        		exitCode = 2;
+        		Platform.exit(); return;
         	}
         });
  		
+ 		//start!
  		mythread.join();
     }
     
