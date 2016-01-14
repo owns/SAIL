@@ -215,42 +215,46 @@ public class GUIController implements Initializable {
     private void chooseInput(ActionEvent event) throws Exception{
         File file = selectFileDir(false);
         if (file != null) {
-            System.out.println(file.getAbsolutePath());
-            String path = file.getAbsolutePath();
-            inFolder.setText(path);
-            at.setInputDir(inFolder.getText());
-            List<String> headers = at.readHeader();
-            for(int i = 0; i < comboBoxes.size(); i++){
-            	comboBoxes.get(i).getSelectionModel().clearSelection();
-        		comboBoxes.get(i).getItems().clear();
-        		comboBoxes.get(i).getItems().addAll(headers);
-        		comboBoxes.get(i).setPromptText("Choose one");
-        		if(headers.contains(at.defaultProperties.getHeader(AppProperties.propKeys[i]))){
-        			comboBoxes.get(i).setValue(at.defaultProperties.getHeader(AppProperties.propKeys[i]));
-        		}
-        	}
-            if(at.usingCustomConfig() && at.defaultProperties.getModel()!= null){
-            	predModel.setValue(MODELTYPE.CUSTOM);
-            	customModelFile = at.defaultProperties.getModel();
-            	System.out.println(customModelFile);
-            	at.setCustomModelFile(customModelFile);
-            }
-            progressBar.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
+            setInputFolder(file.getAbsolutePath());
         }
     }
     
+	public void setInputFolder(String path) throws Exception{
+		System.out.println(path);
+    	inFolder.setText(path);
+        at.setInputDir(inFolder.getText());
+        List<String> headers = at.readHeader();
+        for(int i = 0; i < comboBoxes.size(); i++){
+        	comboBoxes.get(i).getSelectionModel().clearSelection();
+    		comboBoxes.get(i).getItems().clear();
+    		comboBoxes.get(i).getItems().addAll(headers);
+    		comboBoxes.get(i).setPromptText("Choose one");
+    		if(headers.contains(at.defaultProperties.getHeader(AppProperties.propKeys[i]))){
+    			comboBoxes.get(i).setValue(at.defaultProperties.getHeader(AppProperties.propKeys[i]));
+    		}
+    	}
+        if(at.usingCustomConfig() && at.defaultProperties.getModel()!= null){
+        	predModel.setValue(MODELTYPE.CUSTOM);
+        	customModelFile = at.defaultProperties.getModel();
+        	System.out.println(customModelFile);
+        	at.setCustomModelFile(customModelFile);
+        }
+        progressBar.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
+    }
     
     @FXML
     private void chooseOutput(ActionEvent event) throws Exception{
         File file = selectFileDir(false);
         if (file != null) {
-            file.getAbsolutePath();
-            System.out.println(file.getAbsolutePath());
-            String path = file.getAbsolutePath();
-            outFolder.setText(path);
-            at.outputDir = outFolder.getText();
+            setOutputFolder(file.getAbsolutePath());
             //Save file here
         }
+    }
+    
+    public void setOutputFolder(String path) throws Exception{
+    	System.out.println(path);
+    	outFolder.setText(path);
+        at.outputDir = outFolder.getText();
     }
     
     private void selectModelFile(ActionEvent event) throws Exception{
@@ -375,7 +379,31 @@ public class GUIController implements Initializable {
         }
     
     @FXML
-    private void processLogin(ActionEvent event) {
+    private void processLogin(ActionEvent event) throws Exception{
+    	processInput(new Runnable() {
+            @Override public void run() {
+            	SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
+    	        selectionModel.select(tab3);
+    	        outFiles.getItems().clear();
+    			outFiles.getItems().addAll(at.files);
+    			System.out.println("Added files to drop down: "+at.files);
+    	        outFiles.getSelectionModel().selectFirst();
+    	        
+    	        next1.setDisable(false);
+    	        featureTable.setEditable(true);
+    	        tweetLabel.setEditable(true);
+    	        tweetText.setEditable(true);
+    	        tweetFeature.setVisible(true);
+    	        tweetProb.setVisible(true);
+            }
+        },new Runnable() {
+            @Override public void run() {
+        		System.err.println("Task Failed");
+        	}
+        });
+    }
+    
+    public Thread processInput(Runnable rSuccess,Runnable rFail) throws Exception {
         System.out.println("Steping to next step...");
         progressBar.progressProperty().unbind();
         progressMessage.textProperty().unbind();
@@ -410,28 +438,10 @@ public class GUIController implements Initializable {
 				return true;
     		};
     		
-    		
-    		
-    		@Override protected void succeeded() {
-                super.succeeded();
-                updateMessage("Done!");
-            }
-
-            @Override protected void cancelled() {
-                super.cancelled();
-                updateMessage("Cancelled!");
-            }
-
-            @Override protected void failed() {
-                super.failed();
-                updateMessage("Failed!");
-            }
-    		
-    		@Override
-    		protected void done() {
-    			// TODO Auto-generated method stub
-    			super.done();
-    		}
+    		@Override protected void succeeded(){ super.succeeded();updateMessage("Done!"); }
+            @Override protected void cancelled(){ super.cancelled();updateMessage("Cancelled!"); }
+            @Override protected void failed(){ super.failed();updateMessage("Failed!"); }
+    		@Override protected void done(){ super.done();updateMessage("Done!"); }
     	};
     	progressBar.progressProperty().bind(t.progressProperty());
     	progressMessage.textProperty().bind(t.messageProperty());
@@ -442,31 +452,16 @@ public class GUIController implements Initializable {
 			public void handle(WorkerStateEvent event) {
 				// TODO Auto-generated method stub
 				if(t.getValue()){
-					Platform.runLater(new Runnable() {
-	                    @Override public void run() {
-	                    	SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
-	            	        selectionModel.select(tab3);
-	            	        outFiles.getItems().clear();
-	            			outFiles.getItems().addAll(at.files);
-	            			System.out.println("Added files to drop down: "+at.files);
-	            	        outFiles.getSelectionModel().selectFirst();
-	            	        
-	            	        next1.setDisable(false);
-	            	        featureTable.setEditable(true);
-	            	        tweetLabel.setEditable(true);
-	            	        tweetText.setEditable(true);
-	            	        tweetFeature.setVisible(true);
-	            	        tweetProb.setVisible(true);
-	                    }
-	                });
+					Platform.runLater(rSuccess);
 				} else {
-					System.err.println("Task Failed");
+					Platform.runLater(rFail);
 				}
 			}
 		});
     	
-    	new Thread(t).start();
-        
+    	Thread mythread = new Thread(t);
+		mythread.start();
+		return mythread;
     }
     
     @FXML
