@@ -71,7 +71,6 @@ public class AnnotationTask {
 	private String remove_list = "";
 	private boolean customProps;
 	public AnnotationTask() {
-		// TODO Auto-generated constructor stub
 		defaultProperties = new AppProperties();
 		if(server != null){
 			server.stop(0);
@@ -166,10 +165,8 @@ public class AnnotationTask {
 			}
 			Prediction.setModelParams(this.class_index, this.string_list, this.remove_list, this.customModelFile);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -206,7 +203,6 @@ public class AnnotationTask {
 				
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
    	
@@ -340,7 +336,6 @@ public class AnnotationTask {
 			bw.write("];");
 			bw.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -444,7 +439,6 @@ public class AnnotationTask {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		new AnnotationTask();
 	}
 

@@ -16,16 +16,13 @@ public class AppProperties extends Properties {
 			"Twitter_Retweets","Twitter_Tweets"};
 
 	public AppProperties() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public AppProperties(Properties defaults) {
 		super(defaults);
-		// TODO Auto-generated constructor stub
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 	}
 	

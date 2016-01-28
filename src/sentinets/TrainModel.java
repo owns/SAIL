@@ -32,7 +32,6 @@ public class TrainModel {
 	FilteredClassifier cls;
 	
 	public TrainModel(String inputFile, String outputFile) {
-		// TODO Auto-generated constructor stub
 		this.inputFile = inputFile;
 		this.outputFile = outputFile;
 		this.setInstances(this.inputFile);
@@ -58,13 +57,10 @@ public class TrainModel {
 			System.out.println(ins.toSummaryString());
 			
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		int cIdx = ins.numAttributes() - 1;
@@ -94,7 +90,6 @@ public class TrainModel {
 			System.out.println("*********************");
 			TrainModel.saveModel(c, name);
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		

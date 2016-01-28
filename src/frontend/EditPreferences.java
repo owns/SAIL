@@ -44,7 +44,6 @@ public class EditPreferences extends Dialog<AppProperties> {
 		Stage stage;
 		
 		public BrowseEventHandler(Stage stage, FileChooser fc, TextField tf, String propKey) {
-			// TODO Auto-generated constructor stub
 			this.stage = stage;
 			this.fc = fc;
 			this.tf = tf;
@@ -98,14 +97,12 @@ public class EditPreferences extends Dialog<AppProperties> {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
 				try {
 					props.load(new FileInputStream(GUI.configDefaultsFile));
 					modelFile.setText(props.getModel());
 					lexiconFile.setText(props.getLexicon());
 					queryFile.setText(props.getQueryList());
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
@@ -145,7 +142,6 @@ public class EditPreferences extends Dialog<AppProperties> {
 		try {
 			props.load(new FileInputStream(GUI.configFile));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -155,7 +151,6 @@ public class EditPreferences extends Dialog<AppProperties> {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 	}
 

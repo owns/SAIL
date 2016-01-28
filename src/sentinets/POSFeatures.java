@@ -22,7 +22,6 @@ public class POSFeatures {
 			try {
 				t.loadModel("./data/models/ARK_NLP_POS/model.20120919");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				System.out.println("Invalid model file.");
 				
@@ -48,7 +47,6 @@ public class POSFeatures {
 		try {
 			t.loadModel("model.20120919");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Invalid model file.");
 			
@@ -77,7 +75,6 @@ public class POSFeatures {
 	public HashMap<String, Integer> posCounts;
 		
 	public POSFeatures(String tweet) {
-		// TODO Auto-generated constructor stub
 		if(t == null){
 			POSFeatures.init();
 		}

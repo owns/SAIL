@@ -10,6 +10,7 @@ package frontend;
 //import com.sun.javafx.scene.control.skin.SkinBase;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -220,7 +221,7 @@ public class GUIController implements Initializable {
     }
     
 	public void setInputFolder(String path) throws Exception{
-		System.out.println(path);
+		System.out.println("setInputFolder(" + path+")");
     	inFolder.setText(path);
         at.setInputDir(inFolder.getText());
         List<String> headers = at.readHeader();
@@ -252,7 +253,7 @@ public class GUIController implements Initializable {
     }
     
     public void setOutputFolder(String path) throws Exception{
-    	System.out.println(path);
+    	System.out.println("setOutputFolder(" + path+")");
     	outFolder.setText(path);
         at.outputDir = outFolder.getText();
     }
@@ -310,7 +311,6 @@ public class GUIController implements Initializable {
             	try {
 					this.selectModelFile(event);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
             }
@@ -450,7 +450,6 @@ public class GUIController implements Initializable {
 			
 			@Override
 			public void handle(WorkerStateEvent event) {
-				// TODO Auto-generated method stub
 				if(t.getValue()){
 					Platform.runLater(rSuccess);
 				} else {
@@ -571,11 +570,9 @@ public class GUIController implements Initializable {
 				props.store(saveFile, "Saving file");
 				saveFile.close();
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
     	});
-    	
     }
     
     private void showChart(){
@@ -619,6 +616,13 @@ public class GUIController implements Initializable {
     	metricsUpdate.getData().add(metricSeries.get(2)); // WEIGHTED AVERAGE
     	
     	System.err.println("Y min: "+min+", Y max: "+max);
-    	
     }
+    
+    
+    @FXML
+    void closeWindow(ActionEvent event) {
+    	System.out.println("closeWindow:closing...");
+    	stage.close();
+    }
+    
 }

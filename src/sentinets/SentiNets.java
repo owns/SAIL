@@ -53,7 +53,6 @@ public class SentiNets {
 	ArrayList<Double[][]> classDist;
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		String inputFile = "./data/output/cyber_bull.tsv";
 		String outputDir = "./data/output";
 		SentiNets obj = new SentiNets(inputFile, outputDir, SentiNets.BOTH);
@@ -87,7 +86,6 @@ public class SentiNets {
 				r.setInputFormat(unlabled);
 				sns_instances = Remove.useFilter(unlabled, r);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -118,7 +116,6 @@ public class SentiNets {
 				writePredictions(Remove.useFilter(original, r), BOTHFilePrefix);
 				writeStats(original);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -137,7 +134,6 @@ public class SentiNets {
 				writePredictions(Remove.useFilter(original, r), BOTHFilePrefix);
 				writeStats(original);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -181,7 +177,6 @@ public class SentiNets {
 				clsLabel = cls.classifyInstance(unlabled.instance(i));
 				//System.out.println("CLSLABEL: " + clsLabel);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			labled.instance(i).setClassValue(clsLabel);
@@ -210,7 +205,6 @@ public class SentiNets {
 					.read(modelFile);
 			//System.out.println(cls.toString());
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}
@@ -249,13 +243,10 @@ public class SentiNets {
 			//System.out.println(unlabled.toSummaryString());
 			
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		int cIdx = unlabled.numAttributes() - 1;
@@ -278,7 +269,6 @@ public class SentiNets {
 			s.writeBatch();
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

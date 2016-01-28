@@ -46,7 +46,6 @@ public class TweetEntityNode {
 	String[] sentiment_class;
 	
 	public TweetEntityNode() {
-		// TODO Auto-generated constructor stub
 		sentiment_score = new Hashtable<SentimentType, Double>();
 		sentiment_score.put(SentimentType.ENTHUSIASTIC, 0.0);
 		sentiment_score.put(SentimentType.PASSIVE, 0.0);

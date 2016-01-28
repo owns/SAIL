@@ -21,15 +21,12 @@ public class VisServerHandler implements HttpHandler {
 	String root;
 
 	public VisServerHandler() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public VisServerHandler(String root) {
-		// TODO Auto-generated constructor stub
 		try {
 			this.root = new File(root).getCanonicalFile().getAbsolutePath();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//this.root = "E:\\Code\\Java\\OnlineModelLearning\\output\\visualization";
@@ -37,7 +34,6 @@ public class VisServerHandler implements HttpHandler {
 
 	@Override
 	public void handle(HttpExchange t) throws IOException {
-		// TODO Auto-generated method stub
 		URI uri = t.getRequestURI();
         System.out.println(root + uri.getPath());
         File file = new File(root + uri.getPath()).getCanonicalFile();

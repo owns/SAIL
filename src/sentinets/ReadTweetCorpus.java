@@ -79,10 +79,8 @@ public class ReadTweetCorpus {
 			}
 			cr.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -98,10 +96,8 @@ public class ReadTweetCorpus {
 			}
 			cr.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -189,7 +185,6 @@ public class ReadTweetCorpus {
             cw.close();
             //stats.printStats(new PrintStream(new File(fileName+".stats.tsv")));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.err.println("Error occured while reading line: "+lines_read);
 			System.err.println(Arrays.toString(tweetList));
@@ -287,7 +282,6 @@ public class ReadTweetCorpus {
 	}
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		/**
 		ReadTweetCorpus rtc = new ReadTweetCorpus("input/SupplementaryData.txt","output/Supplementary_POS.tsv",
 				new String[]{"tweet_text","user_screenname","created_date",null,"tweet_url",

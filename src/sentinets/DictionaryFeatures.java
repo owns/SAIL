@@ -34,7 +34,6 @@ public class DictionaryFeatures {
 	 * 
 	 */
 	public DictionaryFeatures() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public static ArrayList<String> getKeys(){
@@ -59,7 +58,6 @@ public class DictionaryFeatures {
 		private List<String> tokens;
 		private HashMap<String, Integer> lexicalScores;
 		public TweetObject(String text) {
-			// TODO Auto-generated constructor stub
 			text = text.replaceAll("[^ -~]", "");
 			this.tokens = Twokenize.tokenizeRawTweetText(text);
 			//this.tokens = Arrays.asList(text.split("\\s"));
@@ -119,7 +117,6 @@ public class DictionaryFeatures {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 	}
 
 	/**

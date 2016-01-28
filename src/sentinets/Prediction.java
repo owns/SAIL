@@ -67,12 +67,10 @@ public class Prediction {
 		CUSTOM("Custom...");
 		private String text;
 		private MODELTYPE(String text) {
-			// TODO Auto-generated constructor stub
 			this.text = text;
 		}
 		@Override
 		public String toString() {
-			// TODO Auto-generated method stub
 			return this.text;
 		}
 		
@@ -90,7 +88,6 @@ public class Prediction {
 	
 	
 	public Prediction(String inputFile, String outputDir, MODELTYPE classifierType) {
-		// TODO Auto-generated constructor stub
 		this.inputFile = inputFile;
 		this.outputDir = outputDir;
 		this.classifierType = classifierType;
@@ -98,7 +95,6 @@ public class Prediction {
 	}
 	
 	public Prediction(String inputFile, String outputDir, MODELTYPE classifierType, String prefix) {
-		// TODO Auto-generated constructor stub
 		this(inputFile, outputDir, classifierType);
 		this.filePrefix = prefix;
 	}
@@ -122,7 +118,6 @@ public class Prediction {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		String inputFile = "./output/Supplementary_POS.tsv";
 		String outputDir = "./output";
 		Prediction obj = new Prediction(inputFile, outputDir, MODELTYPE.SENTIMENT);
@@ -181,7 +176,6 @@ public class Prediction {
 			}
 			//writeStats(original);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return 5;
 		}
@@ -226,7 +220,6 @@ public class Prediction {
 				clsLabel = cls.classifyInstance(unlabled.instance(i));
 				//System.out.println("CLSLABEL: " + clsLabel);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				System.err.println("Classification task failed.");
 				return 1;
@@ -306,7 +299,6 @@ public class Prediction {
 				output += "No new instances for training the model.";
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return output;
@@ -341,7 +333,6 @@ public class Prediction {
 				return 1;
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return 2;
 		}
@@ -395,15 +386,12 @@ public class Prediction {
 			//System.out.println(unlabled.toSummaryString());
 			
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return 1;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return 2;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return 3;
 		}
@@ -432,7 +420,6 @@ public class Prediction {
 			s.writeBatch();
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return 1;
 		}

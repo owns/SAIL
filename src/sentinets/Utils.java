@@ -24,7 +24,6 @@ public class Utils {
 		return outDirs[i.ordinal()];
 	}
 	public Utils() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public static void createFolder(String dirName){

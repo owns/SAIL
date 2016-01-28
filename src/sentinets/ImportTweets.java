@@ -79,7 +79,6 @@ public class ImportTweets {
             bw.close();
             //stats.printStats(new PrintStream(new File(fileName+".stats.tsv")));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
          
@@ -112,7 +111,6 @@ public class ImportTweets {
             cw.close();
             //stats.printStats(new PrintStream(new File(fileName+".stats.tsv")));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -128,7 +126,6 @@ public class ImportTweets {
             try {
 				result = twitter.search(query);
 			} catch (TwitterException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				e.printStackTrace();
 	            System.out.println("Failed to search tweets: " + e.getMessage());
