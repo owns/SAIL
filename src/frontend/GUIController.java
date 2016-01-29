@@ -67,8 +67,6 @@ import javafx.util.Callback;
 
 import org.apache.commons.io.FilenameUtils;
 
-
-
 import sentinets.Prediction.MODELTYPE;
 import core.AnnotationTask;
 import core.AppProperties;
@@ -78,10 +76,10 @@ import frontend.Tweet.LABEL;
  * This is the GUI Controller class.
  * @author ltao3, Shubhanshu
  */
-@SuppressWarnings("deprecation")
 public class GUIController implements Initializable {
     
-    private Label label;
+    @SuppressWarnings("unused")
+	private Label label;
     @FXML
     private Button next1;
     @FXML
@@ -206,8 +204,8 @@ public class GUIController implements Initializable {
     		currentDir = file;
     	} else {
     		dirChooser.setInitialDirectory(currentDir);
-    		 file = dirChooser.showDialog(stage);
-    		 currentDir = file;
+    		file = dirChooser.showDialog(stage);
+    		currentDir = file;
     	}
     	return file;
     }
@@ -258,7 +256,8 @@ public class GUIController implements Initializable {
         at.outputDir = outFolder.getText();
     }
     
-    private void selectModelFile(ActionEvent event) throws Exception{
+    @SuppressWarnings("unused")
+	private void selectModelFile(ActionEvent event) throws Exception{
     	File file = selectFileDir(true);
         if (file != null) {
             customModelFile = file.getAbsolutePath();
@@ -304,7 +303,7 @@ public class GUIController implements Initializable {
         
         predModel.getItems().add(MODELTYPE.SENTIMENT_WORD);
         predModel.getItems().add(MODELTYPE.CUSTOM);
-     // Handle ComboBox event.
+        /* Handle ComboBox event.
         predModel.setOnAction((event) -> {
             if(predModel.getSelectionModel().getSelectedItem().equals(MODELTYPE.CUSTOM)){
             	System.out.println("ComboBox Action (selected: " + MODELTYPE.CUSTOM + ")");
@@ -314,10 +313,14 @@ public class GUIController implements Initializable {
 					e.printStackTrace();
 				}
             }
-        });
+        });//*/
     	//predModel.getItems().add(MODELTYPE.SENTIMENT);
-    	predModel.getSelectionModel().selectFirst();
+    	//predModel.getSelectionModel().selectFirst();
         //progressBar = new ProgressIndicator();
+        
+        // always use 'custom' config - what's in the config file!
+    	predModel.getSelectionModel().selectLast();
+    	predModel.setDisable(true);
         
 //        tabPane.prefWidthProperty().bind(scene.widthProperty());
 //        tabPane.prefHeightProperty().bind(scene.heightProperty());
@@ -354,7 +357,8 @@ public class GUIController implements Initializable {
 //            });
         
         tweetLabel.setOnEditCommit(event -> {
-            final TableColumn.CellEditEvent _evn = (TableColumn.CellEditEvent) event;
+            @SuppressWarnings("rawtypes")
+			final TableColumn.CellEditEvent _evn = (TableColumn.CellEditEvent) event;
             int rowId = _evn.getTablePosition().getRow();
             String newVal = _evn.getNewValue().toString();
             Tweet t = ((Tweet) _evn.getTableView().getItems().get(rowId));
@@ -503,8 +507,7 @@ public class GUIController implements Initializable {
     	showChart();
     }
 
-    @SuppressWarnings("deprecation")
-	@FXML
+    @FXML
     void showAbout(ActionEvent event) {
     	/*Dialogs.create()
     	.title("About")
@@ -561,6 +564,10 @@ public class GUIController implements Initializable {
     	EditPreferences dialog = new EditPreferences(stage);
     	Optional<AppProperties> result = dialog.showAndWait();
     	result.ifPresent(props -> {
+    		at.setCustomModelFile(props.getModel());
+    		at.setLexiconPath(props.getLexicon());
+    		at.setQueryTerms(props.getQueryList());
+    		
     		System.out.println("Updating preferences to: ");
     		System.out.println(props.toString());
     		System.out.println("Saving in file: "+GUI.configFile);
@@ -618,6 +625,85 @@ public class GUIController implements Initializable {
     	System.err.println("Y min: "+min+", Y max: "+max);
     }
     
+    /*****************************************/
+    /* config file methods
+    /*****************************************/
+    public String getProperty(String p){
+    	System.out.println("getProperty(" + p + ")");
+    	AppProperties props = new AppProperties();
+		try {
+			props.load(new FileInputStream(GUI.configFile));
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
+		
+		return (String) props.get(p);
+    }
+    
+    public void setProperty(String p,String val){
+    	System.out.println("setProperty(" + p + "," + val + ")");
+    	AppProperties props = new AppProperties();
+		try {
+			props.load(new FileInputStream(GUI.configFile));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		props.setProperty(p,val);
+		switch(p){
+		case "model": at.setCustomModelFile(val); break;
+		case "lexicon": at.setLexiconPath(val); break;
+		case "query_list": at.setQueryTerms(val); break;
+		}
+		
+		System.out.println("setProperty:saving in file: "+GUI.configFile);
+		FileOutputStream saveFile;
+		try {
+			saveFile = new FileOutputStream(GUI.configFile);
+			props.store(saveFile, "Saving file");
+			saveFile.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
+    
+    public void restoreDefaultProperties(){
+    	System.out.println("restoreDefaultProperties()");
+    	
+    	// load current properties
+    	AppProperties props = new AppProperties();
+		try {
+			props.load(new FileInputStream(GUI.configFile));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// load default
+		AppProperties defaultProps = new AppProperties();
+		try {
+			defaultProps.load(new FileInputStream(GUI.configDefaultsFile));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		// change current to default
+		props.setProperty("model",defaultProps.getModel());
+		at.setCustomModelFile(defaultProps.getModel());
+		props.setProperty("lexicon",defaultProps.getLexicon());
+		at.setLexiconPath(defaultProps.getLexicon());
+		props.setProperty("query_list",defaultProps.getQueryList());
+		at.setQueryTerms(defaultProps.getQueryList());
+		
+		System.out.println("restoreDefaultProperties:saving in file: "+GUI.configFile);
+		FileOutputStream saveFile;
+		try {
+			saveFile = new FileOutputStream(GUI.configFile);
+			props.store(saveFile, "Saving file");
+			saveFile.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
     
     @FXML
     void closeWindow(ActionEvent event) {
