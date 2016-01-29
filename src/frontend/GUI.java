@@ -76,23 +76,18 @@ public class GUI extends Application {
         System.out.println("----------------");
         
         // .show() if no args, else handle!
-		String inpath = null;
+        String inpath = null;
         String outpath = null;
         String config = null;
         switch(args.size()){
-        default:
-        	System.err.format("%sToo many arguments... just using first 3... %s", args.toArray().toString(),args.toString());
-        case 3:
-        	config = args.get(2);
-        case 2:
-        	outpath = args.get(1);
-        case 1:
-        	inpath = args.get(0);
+        default: System.err.format("Too many arguments; just using first 3... %s%n",args.toString());
+        case 3: config = args.get(2);
+        case 2: outpath = args.get(1);
+        case 1: inpath = args.get(0);
         	break;
-        case 0:
-        	exitCode = 0; stage.show(); return;
+        case 0: exitCode = 0; stage.show(); return;
         }
- 		
+        
  		// 01 set input folder
  		System.out.format("Input  Folder: \"%s\"%n",inpath);
  		// is dir and exists?
