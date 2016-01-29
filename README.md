@@ -6,27 +6,27 @@ The tool also supports incremental learning of the existing models by adding new
 The model accuracy can be improved by using domain specific lexicons and query terms.  
 
 Addition:
-===================
-I've added handling for basic command line arguments, so SAIL can be automated! This is how it works
-0 arguments: SAIL runs normally
-1 argument : the folder is both the input and output folder.
-	NOTE: for input files, column headers must match the drop-down labels for SAIL to assign that column to that field.
-		  e.g. "tweet_text" header in csv --> tweet_text label.
-2 arguments: the second argument is the output folder.
-3 arguments: the third argument is the relative or absolute (recommended) model file path.
-+ arguments: any arguments after 3 are ignored. there's a warning.
+---------
+Added basic command line arguments, so SAIL can be automated! This is how it works:
 
-I separated the GUI from the functionality a little in the GUIController class to make the automation possible.
-I've also removed all // TODO auto-gen.+ comments.
-I changed STDOUT and STDERR to go to their standard streams instead of files.
-I fixed the model to custom and disabled the drop-down so it always uses the model in the config file.  Before, it was hardcoded in sentinets.Prediction.
+0 arguments: SAIL runs normally<br>
+1 argument : the folder is both the input and output folder.<br>
+<ind>NOTE: for input files, column headers must match the drop-down labels for SAIL to assign that column to that field. e.g. if "tweet_text" is a header in an input csv file, it'll be assigned to the tweet_text label.<br>
+2 arguments: the second argument is the output folder.<br>
+3 arguments: the third argument is the relative or absolute (recommended) model file path.<br>
+\+ arguments: any arguments after 3 are ignored. there's a warning.
 
-Edit Codes:
+Separated the GUI from the functionality a little in the GUIController class to make the automation possible.<br>
+Removed all // TODO auto-gen.+ comments so property task tracking can be utilized.<br>
+Changed STDOUT and STDERR to go to the console (default) instead of files.<br>
+Fixed the model to custom and disabled the drop-down so it always uses the model in the config file.  Before, it was hardcoded to the default in sentinets.Prediction.
+
+Exit Codes:
 -----------
-0: not errors! success! NOTE: if the input folder is empty, success!
-1: unhandled error...
-2: process input failed.  this is usually because a csv format issue.  SAIL will change "" -> ", and also uses \ has an escape character.  If a line ends with a \, SAIL will fail.
-3: bad param
+0: no errors! success! NOTE: if the input folder is empty, success!<br>
+1: unhandled errors...<br>
+2: process input failed.  this is usually because a csv format issue.  SAIL will change "" to ", and also uses \ has an escape character.  If a cell's text ends with a \, SAIL will fail.<br>
+3: issue with your parameters.  see the logs for details.
 
 Contributors:
 -------------
@@ -34,6 +34,7 @@ Contributors:
 * Shubhanshu Mishra <smishra8@illinois.edu>
 * Liang Tao <ltao3@illinois.edu>
 * Chieh-Li Chin <cchin6@illinois.edu>
+* (a little) Elias Wood <owns13927@yahoo.com>
 
 **Advisor:** Jana Diesner <jdiesner@illinois.edu>
 
