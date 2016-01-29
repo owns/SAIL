@@ -28,7 +28,6 @@ Edit Codes:
 2: process input failed.  this is usually because a csv format issue.  SAIL will change "" -> ", and also uses \ has an escape character.  If a line ends with a \, SAIL will fail.
 3: bad param
 
-
 Contributors:
 -------------
 
