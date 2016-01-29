@@ -123,7 +123,7 @@ public class EditPreferences extends Dialog<AppProperties> {
 		grid.add(browseQuery, 2, 2);
 		
 		grid.add(restoreDefaults, 2, 3);
-		grid.add(new Label("Restart the application after saving config."), 0, 4, 3, 1);
+		grid.add(new Label(""), 0, 4, 3, 1); //Restart the application after saving config.
 		
 		this.getDialogPane().setContent(grid);
 		
